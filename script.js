@@ -18,23 +18,17 @@ let classval = document.getElementsByClassName("form-control");
 let ids=[];
 
 
-    let a;
-    let b;
-    let c;
-    let d;
-    let marksobt=0;
-    let total;
-    let calcuAns;
+let marksobt=0;
+let total;
+let calcuAns;
 
-
-    
+  
 function runit(){
-    a = Number(maths.value);
-    b = Number(english.value);
-    c = Number(physics.value);
-    d = Number(chemistry.value);
-
-     let values=[a,b,c,d];
+  const a = Number(maths.value);
+  const b = Number(english.value);
+  const c = Number(physics.value);
+  const d = Number(chemistry.value);
+    const values=[a,b,c,d];
 
     for(let i=0;i<ids.length;i++){
 
@@ -43,10 +37,6 @@ function runit(){
         let value= Number(element.value);
         values.push(value);
     }
-
-
-
-
 
 
     //  validation block of codes
@@ -179,20 +169,29 @@ add.addEventListener("click" , addNew);
 
 
 function reset(){
-    
-    maths.value="";
-    english.value="";
-    physics.value="";
-    chemistry.value="";
-    error.innerHTML="";
-    errorMax.innerHTML="";
-    errorNum.innerHTML="";
+
+    const values = [maths, english, physics, chemistry];
+    for(let i=0;i<values.length;i++) values[i].value = '';
+
+    const utils = [error, errorMax, errorNum, percent, percentmark, grade, grademark, pass]
+    for(let i=0;i<utils.length;i++) utils[i].innerHTML=""
+
+    // error.innerHTML="";
+    // errorMax.innerHTML="";
+    // errorNum.innerHTML="";
+    // percent.innerHTML="";
+    // percentmark.innerHTML="";
+    // grade.innerHTML=""
+    // grademark.innerHTML="";
+    // pass.innerHTML="";
+
+    for(let i=0;i<ids.length;i++){
+      let id=ids[i];
+      let element = document.getElementById(ids[i]);
+      element.value = '';
+    } 
+
     ids = [];
-    percent.innerHTML="";
-    percentmark.innerHTML="";
-    grade.innerHTML=""
-    grademark.innerHTML="";
-    pass.innerHTML="";
 }
 set.addEventListener("click" , reset);
 
