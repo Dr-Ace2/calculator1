@@ -1,0 +1,64 @@
+body{
+    background-color: darkcyan;
+    padding: 3%;
+}
+.red{
+    
+    background-color: red;
+
+}
+.blue{
+      background-color: blue;
+}
+
+#percent{
+    padding-top: 10%;
+
+}
+#percentmark{
+    padding-top: 10%;
+
+}
+
+#grade{
+    padding-top: 10%;
+}
+#grademark{
+    padding-top: 10%;
+}
+
+#mark{
+    padding-bottom: 6%;
+    padding-top: 6%;
+}
+#footer{
+    background-color: yellow;
+    width: 100%;
+    text-align: center;
+    
+}
+
+.pad{
+    padding-bottom: 1%;
+}
+
+.whit{
+    background-color: whitesmoke;
+    
+}
+
+.error{
+    color: white;
+}
+.errorNum{
+   color: white;
+}
+.errorMax{
+    color: white;
+}
+
+
+
+
+
+/* https://github.com/Dr-Ace2/grade-calculator */
