@@ -35,30 +35,30 @@ let calcuAns;
 
 // tried to validate by looping through the courses buh to no avail, dats y i validated differntly after this block of code
 
-//    function validation(){
-//     for(let i=0; i<classval.length;i++){
+   function validation(){
+        let noError = true;
+        for(let i=0; i<classval.length;i++){
 
-//         if(isNaN(classval[i].value)){
-//                             //  console.log("its not a number");   
-//                         error[i].innerHTML="Incorrect input, pls check again";
-//                         return false        
-                         
-//                     }if(classval[i].value ===""){
-//                         error[i].innerHTML="Pls input a number";
-//                         return false
-//                     }
-//                        if (classval[i].value > 100) {
-//                               error[i].innerHTML="Max input is 100";
-//                               return false;
-//                             }else{
-//                                 error[i].innerHTML = "";
-//                                 return true;
-//                             }
-                
-//                    }
+            if(isNaN(classval[i].value)){
+                                //  console.log("its not a number");   
+                error[i].innerHTML="Incorrect input, pls check again";
+                noError = false;       
+                    
+            }if(classval[i].value ===""){
+                error[i].innerHTML="Pls input a number";
+                noError = false;       
+            }
+            if (classval[i].value > 100) {
+                    error[i].innerHTML="Max input is 100";
+                    noError = false;       
+                }else{
+                    error[i].innerHTML = "";
+                }
+        }
 
+        return noError;
 
-//     }
+    }
    
 
 
@@ -75,84 +75,26 @@ let calcuAns;
 
 // i validated one after the other here since i couldnt loop tru above
 
-    function validateMaths(){
-       
-               if(isNaN(maths.value)){
-                    //  console.log("its not a number");   
-                error1.innerHTML="Incorrect input, pls check again";
-                return false        
-                 
-            }if(maths.value ===""){
-                error1.innerHTML="Pls input a number";
-                return false
-            }
-               if (maths.value > 100) {
-                      error1.innerHTML="Max input is 100";
-                      return false;
-                    }else{
-                        error1.innerHTML = "";
-                        return true;
-                    }
-        
-           }
-    function validateEnglish(){
-       
-               if(isNaN(english.value)){
-                    //  console.log("its not a number");   
-                error2.innerHTML="Incorrect input, pls check again";
-                return false;        
-                 
-            }if(english.value ===""){
-                error2.innerHTML="Pls input a number";
-            }
-               else if (english.value > 100) {
-                      error2.innerHTML="Max input is 100";
-                      return false;
-                    }else{
-                        error2.innerHTML = "";
-                        return true;
-                    }
-        
-           }
-    function validatePhysics(){
-       
-               if(isNaN(physics.value)){
-                    //  console.log("its not a number");   
-                error3.innerHTML="Incorrect input, pls check again"; 
-                return false;       
-                 
-            } if(physics.value ===""){
-                error3.innerHTML="Pls input a number";
-            }
-               else if (physics.value > 100) {
-                      error3.innerHTML="Max input is 100";
-                      return false;
-                    }else{
-                        error3.innerHTML = "";
-                        return true;
-                    }
-        
-           }
-    function validateChemistry(){
-       
-               if(isNaN(chemistry.value)){
-                    //  console.log("its not a number");   
-                error4.innerHTML="Incorrect input, pls check again";
-                return false;        
-                 
-            }if(chemistry.value ===""){
-                error4.innerHTML="Pls input a number";
-            }
 
-               else if (chemistry.value > 100) {
-                      error4.innerHTML="Max input is 100";
-                      return false;
-                    }else{
-                        error4.innerHTML = "";
-                        return true;
-                    }
+function isValidInputValue( value, errorTarget ) {
+    if(isNaN(value)){
+        //  console.log("its not a number");   
+        errorTarget.innerHTML="Incorrect input, pls check again";
+        return false        
         
-           }
+    }if(value ===""){
+        errorTarget.innerHTML="Pls input a number";
+        return false
+    }
+
+    if (value > 100) {
+        errorTarget.innerHTML="Max input is 100";
+        return false;
+    }else{
+        errorTarget.innerHTML = "";
+        return true;
+    }
+}
 
 
 
@@ -230,18 +172,25 @@ function runit(){
 
                     for(let i=0;i<ids.length;i++){
 
-                    let id=ids[i];
-                    let element = document.getElementById(id);
-                    let value= Number(element.value);
-                    values.push(value);
-    }
+                        let id=ids[i];
+                        let element = document.getElementById(id);
+                        let value= Number(element.value);
+                        values.push(value);
 
+                    }
 
-
-    
-
+    // if (!validation()) {
+    //     return;
+    // }
     // mathematics calculation code
-    
+    if ( 
+        !isValidInputValue( maths.value, error1 ) ||
+        !isValidInputValue( english.value, error2 ) ||
+        !isValidInputValue( physics.value, error3 ) ||
+        !isValidInputValue( chemistry.value, error4 )
+    ) {
+        return
+    }
 
     for(let i=0; i<values.length;i++){
 
@@ -313,20 +262,24 @@ function runit(){
 
 // this code adds new courses
 
+
 function addNew(){
              let id = String(Date.now());
 
              but.insertAdjacentHTML('beforebegin', `
                 
              <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Enter score" id=${id}>
-                    <p class="error"></p>
+                    <input type="text" class="form-control dynamic-courses" placeholder="Enter score" id="${id}">
+                    <p class="error" id="error${id}"></p>
                     <p class="errorNum"></p>
                     <p class="errorMax"></p>
              </div> `)
 
              ids.push(id);
 
+             const newCourse = document.getElementById(id);
+             const errorTarget = document.getElementById(`error${id}`);
+             newCourse.addEventListener("blur" , () => isValidInputValue( newCourse.value, errorTarget ) );
 
 }
 
@@ -334,10 +287,28 @@ function addNew(){
     //  this blocks calls all the above functions
 
 
-            maths.addEventListener("blur" , validateMaths);
-            english.addEventListener("blur" , validateEnglish);
-            physics.addEventListener("blur" , validatePhysics);
-            chemistry.addEventListener("blur" , validateChemistry);
+            maths.addEventListener("blur" , () => isValidInputValue( maths.value, error1 ) );
+            english.addEventListener("blur" , () => isValidInputValue( english.value, error2 ));
+            physics.addEventListener("blur" , () => isValidInputValue( physics.value, error3 ));
+            chemistry.addEventListener("blur" , () => isValidInputValue( chemistry.value, error4 ));
+
+
+            // chemistry.addEventListener("blur" , function() {isValidInputValue()});
+            // chemistry.addEventListener("blur" , validateChemistry );
+
+            // const dynamicCourses = document.getElementsByClassName('dynamic-courses');
+                // for (let i=0; i < dynamicCourses.length; i++) {
+                //     const course = dynamicCourses[i];
+                //     console.log()
+                // }
+            //     for ( course in dynamicCourses ) {
+            //         console.log(course);
+            //     }
+
+            //     dynamicCourses.forEach(course => {
+                    
+            //     })
+
             // classval[i].addEventListener("click" , validation);
             but.addEventListener("click" , runit);
             add.addEventListener("click" , addNew);
