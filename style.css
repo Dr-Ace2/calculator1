@@ -4,11 +4,11 @@ body{
 }
 .red{
     
-    background-color: red;
+    background-color:#a2eacb;
 
 }
 .blue{
-      background-color: blue;
+      background-color:  #4955fd;
 }
 
 #percent{
@@ -32,9 +32,11 @@ body{
     padding-top: 6%;
 }
 #footer{
-    background-color: yellow;
+    background-color: #00abbc;
     width: 100%;
     text-align: center;
+    font-size: 5px;
+    text-shadow: 2px 5px  yellowgreen;
     
 }
 

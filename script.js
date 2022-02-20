@@ -17,8 +17,9 @@ let error2 = document.getElementById("error2");
 let error3 = document.getElementById("error3");
 let error4 = document.getElementById("error4");
 let errorMax = document.getElementsByClassName("errorMax");
-let errorNum = document.getElementsByClassName("errorNum");
+let errorNum = document.getElementsByClassName("errorNm");
 let classval = document.getElementsByClassName("form-control");
+
 let ids=[];
 let a;
 let b;
@@ -27,44 +28,6 @@ let d;
 let marksobt=0;
 let total;
 let calcuAns;
-    
-
-
-
-
-
-// tried to validate by looping through the courses buh to no avail, dats y i validated differntly after this block of code
-
-   function validation(){
-        let noError = true;
-        for(let i=0; i<classval.length;i++){
-
-            if(isNaN(classval[i].value)){
-                                //  console.log("its not a number");   
-                error[i].innerHTML="Incorrect input, pls check again";
-                noError = false;       
-                    
-            }if(classval[i].value ===""){
-                error[i].innerHTML="Pls input a number";
-                noError = false;       
-            }
-            if (classval[i].value > 100) {
-                    error[i].innerHTML="Max input is 100";
-                    noError = false;       
-                }else{
-                    error[i].innerHTML = "";
-                }
-        }
-
-        return noError;
-
-    }
-   
-
-
-
-
-
 
 
 
@@ -73,10 +36,10 @@ let calcuAns;
 
 // validation block of codes (original)
 
-// i validated one after the other here since i couldnt loop tru above
-
 
 function isValidInputValue( value, errorTarget ) {
+
+    
     if(isNaN(value)){
         //  console.log("its not a number");   
         errorTarget.innerHTML="Incorrect input, pls check again";
@@ -99,74 +62,13 @@ function isValidInputValue( value, errorTarget ) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// tried to validate new courses added by looping buh to no avail
-
-    // function validateRest(){
-    //     a = Number(maths.value);
-    //     b = Number(english.value);
-    //     c = Number(physics.value);
-    //     d = Number(chemistry.value);
-    
-    //      let values=[a,b,c,d];
-
-    //      for(let i=0;i<ids.length;i++){
-
-    //         let id=ids[i];
-    //         let element = document.getElementById(id);
-    //         let value= Number(element.value);
-    //         values.push(value);
-    //     }
-    
-       
-    //            if(isNaN(ids[i].value)){
-    //                 //  console.log("its not a number");   
-    //             error[i].innerHTML="Incorrect input, pls check again";
-    //             return false;        
-                 
-    //         }if(ids[i].value ===""){
-    //             error[i].innerHTML="Pls input a number";
-    //         }
-
-    //            else if (ids[i].value > 100) {
-    //                   error[i].innerHTML="Max input is 100";
-    //                   return false;
-    //                 }else{
-    //                     error[i].innerHTML = "";
-    //                     return true;
-    //                 }
-        
-    //        }
-           
-        //    ids[i].addEventListener("blur", validateRest )
-    
-
-
-
-    
-
-
-
-
     
 function runit(){
                     a = Number(maths.value);
                     b = Number(english.value);
                     c = Number(physics.value);
                     d = Number(chemistry.value);
+                    
 
                     let values=[a,b,c,d];
 
@@ -179,19 +81,32 @@ function runit(){
 
                     }
 
-    // if (!validation()) {
-    //     return;
-    // }
+    
+
     // mathematics calculation code
     if ( 
         !isValidInputValue( maths.value, error1 ) ||
         !isValidInputValue( english.value, error2 ) ||
         !isValidInputValue( physics.value, error3 ) ||
+        !isValidInputValue( chemistry.value, error4 )||
         !isValidInputValue( chemistry.value, error4 )
-    ) {
+    )
+     {
         return
     }
-
+    let dynamic = document.getElementsByClassName("dynamic-courses");
+    
+    
+        
+    for (let course of dynamic){
+        let coursesId = course.id;
+        let eror=document.getElementById(
+            (`error${coursesId}`) )
+        if( !isValidInputValue( course.value, eror )){
+            return
+        }
+    } 
+    
     for(let i=0; i<values.length;i++){
 
                marksobt += values[i];
@@ -271,16 +186,19 @@ function addNew(){
              <div class="form-group">
                     <input type="text" class="form-control dynamic-courses" placeholder="Enter score" id="${id}">
                     <p class="error" id="error${id}"></p>
-                    <p class="errorNum"></p>
+                    <p class="errorNm"></p>
                     <p class="errorMax"></p>
              </div> `)
 
              ids.push(id);
 
              const newCourse = document.getElementById(id);
-             const errorTarget = document.getElementById(`error${id}`);
-             newCourse.addEventListener("blur" , () => isValidInputValue( newCourse.value, errorTarget ) );
+             const errorTarg = document.getElementById(`error${id}`);
+             newCourse.addEventListener("blur" , () => isValidInputValue( newCourse.value, errorTarg ) );
 
+             
+            
+            
 }
 
 
@@ -291,6 +209,8 @@ function addNew(){
             english.addEventListener("blur" , () => isValidInputValue( english.value, error2 ));
             physics.addEventListener("blur" , () => isValidInputValue( physics.value, error3 ));
             chemistry.addEventListener("blur" , () => isValidInputValue( chemistry.value, error4 ));
+            but.addEventListener("click" , runit);
+            add.addEventListener("click" , addNew);
 
 
             // chemistry.addEventListener("blur" , function() {isValidInputValue()});
@@ -310,18 +230,19 @@ function addNew(){
             //     })
 
             // classval[i].addEventListener("click" , validation);
-            but.addEventListener("click" , runit);
-            add.addEventListener("click" , addNew);
 
                        
 
 
             // this function resets all values
 
-
+                 
+                 let allFixed;
+                 let others;
 function reset(){
     
 
+    
     for(let i=0; i<classval.length;i++){
        
                     if(classval[i].value===""){
@@ -330,6 +251,18 @@ function reset(){
 
    
         }
+        if(isNaN(classval[i].value)){
+                       
+                            error[i].innerHTML="";
+                }
+        
+        
+                           if(classval[i].value > 100){
+                    
+                          error[i].innerHTML="";
+                    
+                }
+
     
     }
 
@@ -338,35 +271,24 @@ function reset(){
                     b = Number(english.value);
                     c = Number(physics.value);
                     d = Number(chemistry.value);
-                    let values=[a,b,c,d];
 
 
-    for(let i=0; i<values.length;i++){
-       
-        if(isNaN(values[i])){
-                       
-                   errorNum[i].innerHTML="";
-        }
+                   allFixed=[maths,english,physics,chemistry];
 
+                   for(let i=0; i<allFixed.length; i++){
 
-                   if(values[i] > 100){
-            
-                   errorMax[i].innerHTML="";
-            
-        }
-             
-    }
-                    maths.value="";
-                    english.value="";
-                    physics.value="";
-                    chemistry.value="";
-                    percent.innerHTML="";
-                    percentmark.innerHTML="";
-                    grade.innerHTML=""
-                    grademark.innerHTML="";
-                    pass.innerHTML="";
-                        
-                        
+                      allFixed[i].value ="";
+                   }
+
+                   others=[percent,percentmark,grade,grademark,pass];
+
+                   for(let i=0; i<others.length; i++){
+
+                      others[i].innerHTML ="";
+                   }
+
+                  
+    
 
     for(let i=0;i<ids.length;i++){
 
